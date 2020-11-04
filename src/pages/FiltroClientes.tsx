@@ -21,7 +21,8 @@ function FiltroClientes(){
         type='button' 
         variant="primary" 
         name='clientes' 
-        onClick={handleClickLink}>+Novo</Button>
+        onClick={handleClickLink}>+Novo
+        </Button>
     </Col>
     <Col bsPrefix="col-xs-11 col-sm-10 d-none d-sm-block">
     <InputGroup>
