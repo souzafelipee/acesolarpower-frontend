@@ -15,7 +15,7 @@ function FiltroClientes(){
   return (
     <div id='page-filtroClientes'>
     <SideBar/>
-    <Row className="justify-content-center text-center align-center ">
+    <Row className="justify-content-center text-center align-center mt-3">
     <Col bsPrefix="col-xs-1 col-sm-2">      
         <Button 
         type='button' 
