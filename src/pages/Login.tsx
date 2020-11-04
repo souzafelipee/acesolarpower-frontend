@@ -20,7 +20,7 @@ function Login(){
   return(
     <Container>
       <Row className="text-center">
-        <Col xs={10} sm={6} md={4} className="centraliza">
+        <Col xs={10} sm={6} md={4} lg={4} xl={4} className="centraliza">
           <Image src={aceSolarPowerLogo} alt='aceSolarPower' fluid/>
           <form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail" >
