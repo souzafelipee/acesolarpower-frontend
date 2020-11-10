@@ -26,7 +26,6 @@ function Clientes(){
 
   async function getCliente() {
     await api.get(`cliente/${params.codCliente}`).then(response => {
-      console.log(response.data);
       const clienteAux = response.data;
       setCliente(response.data);
       setCodCliente(clienteAux.codCliente);
@@ -39,7 +38,6 @@ function Clientes(){
     console.log(cliente);
   }
   useEffect( () => {
-    console.log('params.codCliente: '+params.codCliente)
     if (!(params.codCliente === undefined)){      
       console.log('params.codCliente entrou no if: '+params.codCliente);
       getCliente();      
@@ -49,7 +47,13 @@ function Clientes(){
     e.preventDefault();
     const cliente = {celular,email,nome,cnpjCpf}
     console.log(cliente)
-    await api.post('cliente', cliente)
+    if (!(params.codCliente === undefined)){
+      api.post(`cliente/${params.codCliente}`, cliente)
+    }
+    else{
+      await api.post('cliente', cliente)
+    }
+    
     history.push('/filtroclientes')
   }
   return (
