@@ -22,6 +22,7 @@ function FiltroClientes(){
   }, [] )*/
   const history = useHistory();
   function handleSearchClick(e: any) {
+    console.log('Variavel de ambiente:');
     console.log(process.env.REACT_APP_API_URL);
     api.get('cliente').then(response =>{
       setClientes(response.data)
