@@ -29,6 +29,7 @@ function FiltroClientes(){
     })
   }
   function handleClickLink(e: any){      
+    console.log(e.target.name);
     history.push('/'+e.target.name);
   }  
   return (
