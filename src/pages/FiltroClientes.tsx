@@ -1,17 +1,34 @@
 import React,{ useState } from 'react';
 import SideBar from '../components/SideBar';
-import {Row,Col,Button,InputGroup,Form} from 'react-bootstrap'
+import ListaClientes from '../components/ListaClientes'
+import {Row,Col,Button,InputGroup,Form,Container,Table} from 'react-bootstrap'
 import { useHistory } from 'react-router-dom';
+import api from '../services/api'
 
+interface Cliente{
+  codCliente: number;
+  celular: string;
+  cnpjCpf: string;
+  email: string;
+  nome: string;
+}
 function FiltroClientes(){
+  const [nome, setNome] = useState('');
+  const [clientes, setClientes] = useState<Cliente[]>([]);
+  /*useEffect( ()=> {
+    api.get('cliente').then(response =>{
+        setClientes(response.data)
+    });
+  }, [] )*/
   const history = useHistory();
   function handleSearchClick(e: any) {
-    
+    api.get('cliente').then(response =>{
+      setClientes(response.data)
+    })
   }
   function handleClickLink(e: any){      
     history.push('/'+e.target.name);
-  }
-  const [nome, setNome] = useState('');
+  }  
   return (
     <div id='page-filtroClientes'>
     <SideBar/>
@@ -24,7 +41,7 @@ function FiltroClientes(){
         onClick={handleClickLink}>+Novo
         </Button>
     </Col>
-    <Col bsPrefix="col-xs-11 col-sm-10 d-none d-sm-block">
+    <Col bsPrefix="col-xs-11 col-sm-10 ">
     <InputGroup>
         <Form.Control 
         name="nome" value={nome} onChange={event => setNome(event.target.value)} 
@@ -35,6 +52,25 @@ function FiltroClientes(){
     </InputGroup>                    
     </Col>
     </Row>
+    <Container className="mt-4">
+        <Table striped bordered hover size="sm">
+            <thead>
+                <tr>
+                <th>Cod</th>
+                <th>CPF/CNPJ</th>
+                <th>Nome</th>
+                </tr>
+            </thead>
+            <tbody>
+            {clientes.map(cliente => (
+            <ListaClientes 
+              key={cliente.codCliente} 
+              cliente={cliente}
+            />
+            ))}
+            </tbody>
+        </Table>
+      </Container>
     </div>
   );
 }

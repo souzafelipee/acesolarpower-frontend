@@ -11,7 +11,8 @@ function Routes(){
             <Switch>
                 <Route exact path="/" component={Login}/>
                 <Route path="/filtroclientes" component={FiltroClientes}/>
-                <Route path="/clientes" component={Clientes}/>                
+                <Route exact path="/clientes" component={Clientes}/>                
+                <Route path="/clientes/:codCliente" component={Clientes}/>
                 <Route path="/dashboard" component={DashBoard}/>
             </Switch>
         </BrowserRouter>        

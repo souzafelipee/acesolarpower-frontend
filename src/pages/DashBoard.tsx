@@ -1,14 +1,10 @@
 import React from 'react';
 import SideBar from '../components/SideBar';
 import imgClientes from '../img/clientes.png';
-import {Container, Image,FormLabel,Card} from 'react-bootstrap';
-import { useHistory,Link } from 'react-router-dom';
+import {Container, Card} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function DashBoard(){
-  const history = useHistory();
-  function handleClickCard(event: any){
-    history.push('/filtroclientes');
-  }
   return(
     <div id="pages-dashboard" >
       <SideBar />

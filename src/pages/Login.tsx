@@ -13,8 +13,6 @@ function Login(){
     e.preventDefault();      
     localStorage.setItem('@AceSolarPower:usuario',usuario)  
     localStorage.setItem('@AceSolarPower:senha',senha)
-    console.log('usuario: '+usuario)
-    console.log('senha: '+senha)
     history.push('/dashboard');
   }  
   return(
