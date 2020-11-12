@@ -21,10 +21,18 @@ function FiltroClientes(){
     });
   }, [] )*/
   const history = useHistory();
-  function handleSearchClick(e: any) {
-    api.get('cliente').then(response =>{
-      setClientes(response.data)
-    })
+  async function handleSearchClick(e: any) {
+    if (nome === ''){
+      await api.get('cliente').then(response =>{
+        setClientes(response.data)
+      })
+    }
+    else{
+      await api.get('cliente/nome/'+nome).then(response =>{
+        setClientes(response.data)
+      })
+    }
+    
   }
   function handleClickLink(e: any){      
     history.push('/'+e.target.name);
@@ -32,6 +40,7 @@ function FiltroClientes(){
   return (
     <div id='page-filtroClientes'>
     <SideBar/>
+    <Container>
     <Row className="justify-content-center text-center align-center mt-3">
     <Col bsPrefix="col-xs-1 col-sm-2">      
         <Button 
@@ -71,6 +80,7 @@ function FiltroClientes(){
             </tbody>
         </Table>
       </Container>
+    </Container>
     </div>
   );
 }

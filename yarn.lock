@@ -1706,6 +1706,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-maskedinput@^4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@types/react-maskedinput/-/react-maskedinput-4.0.4.tgz#3239487fd1aadea44e0b5706304fe1e66c655f07"
+  integrity sha512-sMR4X2a4hKK77W0rBWtBPkoallrCbhT4mcg8dyGNMW7uMabGZ23uhJGleheUNQ5mYsVJIDl3IXGn3m49qigDQA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-router-dom@^5.1.6":
   version "5.1.6"
   resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.1.6.tgz#07b14e7ab1893a837c8565634960dc398564b1fb"

@@ -1,6 +1,7 @@
 import React, { useState, FormEvent, useEffect} from 'react';
 import SideBar from '../components/SideBar';
-import ListaUnidadesConsumidoras from '../components/ListaUnidadesConsumidoras'
+import ListaUnidadesConsumidoras from '../components/ListaUnidadesConsumidoras';
+import MaskedInput from "react-maskedinput"; 
 import {Container,Form,Row,Col,Button,Card,Table,InputGroup} from 'react-bootstrap';
 import api from '../services/api';
 import { useParams, useHistory } from 'react-router-dom';
@@ -110,6 +111,7 @@ function Clientes(){
     console.log(unidadesConsumidoras)
   };
   function handleClickUnidade(unidadeConsumidora: UnidadeConsumidora){
+    console.log(unidadeConsumidora)
     setNumeroUC(unidadeConsumidora.numeroUC)
     setEnderecoUC(unidadeConsumidora.endereco)
     setNumeroEnderecoUC(unidadeConsumidora.numero)
@@ -127,12 +129,19 @@ function Clientes(){
     console.log(cliente)
     if (!(params.codCliente === undefined)){
       api.post(`cliente/${params.codCliente}`, cliente)
+      alert('Cliente atualizado com sucesso!')
     }
     else{
       await api.post('cliente', cliente)
+      alert('Cliente cadastrado com sucesso!')
     }
     
     history.push('/filtroclientes')
+  }
+  if (!(params.codCliente === undefined)){      
+    if (!cliente){
+      return <p>Carregando ...</p>
+    }
   }
   return (
     <div id='page-Clientes'>
@@ -162,12 +171,12 @@ function Clientes(){
             <Form.Group as={Row} className="my-2">                            
               <Form.Label column xs={2}>CPF/CNPJ:</Form.Label>
               <Col xs={4} className="justify-content-start text-left align-left">                
-                <Form.Control  type='text' name="cpfCnpj" placeholder="CPF/CPNJ" 
+                <Form.Control type='text' name="cpfCnpj" placeholder="CPF/CPNJ" 
                               value={cnpjCpf} onChange={e => setCnpjCpf(e.target.value)}/>
               </Col>
               <Form.Label column xs={2}>Celular:</Form.Label>
               <Col xs={4}className="justify-content-start text-left align-left">
-                <Form.Control type='text' name="celular" placeholder="Celular" 
+                <Form.Control as={MaskedInput} mask='(11)11111-1111' type='text' name="celular" placeholder="Celular" 
                               value={celular} onChange={e => setCelular(e.target.value)}/>
               </Col>
             </Form.Group>
@@ -213,12 +222,12 @@ function Clientes(){
               </Form.Group>                
               <Form.Group as={Row} className="my-2">                            
                 <Form.Label column xs={1}>Endereço:</Form.Label>
-                  <Col xs={6} className="justify-content-start text-left align-left">                
+                  <Col xs={7} className="justify-content-start text-left align-left">                
                     <Form.Control type='text' name="EnderecoUC" placeholder="Endereço"
                                   value={enderecoUC} onChange={e => setEnderecoUC(e.target.value)} />
                   </Col>                                
                 <Form.Label column xs={1}>Numero:</Form.Label>
-                <Col xs={4} className="justify-content-start text-left align-left">                
+                <Col xs={3} className="justify-content-start text-left align-left">                
                   <Form.Control type='text' name="numeroUC" placeholder="Número Endereço"
                                 value={numeroEnderecoUC} onChange={e => setNumeroEnderecoUC(e.target.value)} />
                 </Col>                
@@ -230,24 +239,24 @@ function Clientes(){
                                   value={codCidadeUC} onChange={e => setCodCidadeUC(e.target.value)} />
                   </Col>                                
                 <Form.Label column xs={1}>Bairro:</Form.Label>
-                <Col xs={7} className="justify-content-start text-left align-left">                
+                <Col xs={3} className="justify-content-start text-left align-left">                
                   <Form.Control type='text' name="BairroUC" placeholder="Bairro UC"
                                 value={bairroUC} onChange={e => setBairroUC(e.target.value)} />
                 </Col>                
-              </Form.Group>
-              <Form.Group as={Row} className="my-2">                            
                 <Form.Label column xs={1}>CMM:</Form.Label>
-                  <Col xs={3} className="justify-content-start text-left align-left">                
-                    <InputGroup>
-                      <Form.Control type='text' name="ConsumoMedioMensalUC" placeholder="CMM"
-                                    value={consumoMedioMensalUC} onChange={e => setConsumoMedioMensalUC(e.target.value)} />
-                      <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">kWh/mês</InputGroup.Text>
-                      </InputGroup.Append>
-                    </InputGroup>
-                  </Col>                                
+                <Col xs={3} className="justify-content-start text-left align-left">                
+                  <InputGroup>
+                    <Form.Control type='text' name="ConsumoMedioMensalUC" placeholder="CMM"
+                                  value={consumoMedioMensalUC} onChange={e => setConsumoMedioMensalUC(e.target.value)} />
+                    <InputGroup.Append>
+                      <InputGroup.Text id="basic-addon2">kWh/mês</InputGroup.Text>
+                    </InputGroup.Append>
+                  </InputGroup>
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="my-2">                                                
                 <Form.Label column xs={2}>Taxa Disponibilidade:</Form.Label>
-                <Col xs={2} className="justify-content-start text-left align-left">                
+                <Col xs={3} className="justify-content-start text-left align-left">                
                   <InputGroup>
                     <Form.Control type='text' name="BairroUC" placeholder="Taxa disponibilidade"
                                   value={taxaDisponibilidadeUC} onChange={e => setTaxaDisponibilidadeUC(e.target.value)} />
@@ -257,14 +266,26 @@ function Clientes(){
                   </InputGroup>
                 </Col>                
                 <Form.Label column xs={1}>Classe:</Form.Label>
-                <Col xs={1} className="justify-content-start text-left align-left">                
-                  <Form.Control type='text' name="ClasseUC" placeholder="Classe"
-                                value={classeUC} onChange={e => setClasseUC(e.target.value)} />
+                <Col xs={2} className="justify-content-start text-left align-left">                
+                  <Form.Control as="select" name="ClasseUC" placeholder="Classe"
+                                value={classeUC} onChange={e => setClasseUC(e.target.value)}>
+                    <option selected hidden>-</option>
+                    <option value="Residencial">Residencial</option>
+                    <option value="Rural">Rural</option>
+                    <option value="ComercialServicosOutros">ComercialServicosOutros</option>
+                    <option value="Industrial">Industrial</option>
+                    <option value="Religioso">Religioso</option>
+                  </Form.Control>
                 </Col>
                 <Form.Label column xs={1}>Fase: </Form.Label>
-                <Col xs={1} className="justify-content-start text-left align-left">                
-                  <Form.Control type='text' name="FaseUC" placeholder="Fase"
-                                value={faseUC} onChange={e => setFaseUC(e.target.value)} />
+                <Col xs={3} className="justify-content-start text-left align-left">                
+                  <Form.Control as="select"type='text' name="FaseUC" placeholder="Fase"
+                                value={faseUC} onChange={e => setFaseUC(e.target.value)}>
+                    <option selected hidden>-</option>
+                    <option value="Monofasico">Monofasico</option>
+                    <option value="Bifasico">Bifasico</option>
+                    <option value="Trifasico">Trifasico</option>                    
+                  </Form.Control>
                 </Col>
               </Form.Group>
               <Form.Group className="justify-content-start text-center align-center" as={Row}>
