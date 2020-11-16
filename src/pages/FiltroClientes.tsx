@@ -1,9 +1,10 @@
 import React,{ useState } from 'react';
 import SideBar from '../components/SideBar';
 import ListaClientes from '../components/ListaClientes'
-import {Row,Col,Button,InputGroup,Form,Container,Table} from 'react-bootstrap'
+import {Row,Col,Button,InputGroup,Form,Container,Table,Modal,Spinner} from 'react-bootstrap'
 import { useHistory } from 'react-router-dom';
 import api from '../services/api'
+import { findAllByTestId } from '@testing-library/react';
 
 interface Cliente{
   codCliente: number;
@@ -15,29 +16,56 @@ interface Cliente{
 function FiltroClientes(){
   const [nome, setNome] = useState('');
   const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [mostrarModalCarregando, setMostrarModalCarregando] = useState(false);
+  const [mostrarModalErro, setMostrarModalErro] = useState(false);
+  const [mostrarModalVazio, setMostrarModalVazio] = useState(false);
+  const handleCloseCarregando = () => setMostrarModalCarregando(false);
+  const handleCloseErro = () => setMostrarModalErro(false);
+  const handleCloseVazio = () => setMostrarModalVazio(false);
+  const [msgErro, setMsgErro] = useState('');
   /*useEffect( ()=> {
     api.get('cliente').then(response =>{
         setClientes(response.data)
     });
   }, [] )*/
+  function trataRespostaClienteSucesso(dados:[]){
+    setMostrarModalCarregando(false)        
+    setClientes(dados) 
+    console.log(dados)     
+    if (dados.length === 0){
+      setMostrarModalVazio(true)
+    }
+  }
+  function trataRespostaClienteErro(dados:any){
+    setMsgErro(String(dados))
+    setMostrarModalCarregando(false)
+    setMostrarModalErro(true)
+  }
   const history = useHistory();
   async function handleSearchClick(e: any) {
-    if (nome === ''){
-      await api.get('cliente').then(response =>{
-        setClientes(response.data)
+    setMostrarModalCarregando(true);
+    if (nome === ''){      
+      await api.get('cliente').then(response =>{        
+        trataRespostaClienteSucesso(response.data)
+      })
+      .catch(error => {   
+        trataRespostaClienteErro(error)
       })
     }
     else{
       await api.get('cliente/nome/'+nome).then(response =>{
-        setClientes(response.data)
+        trataRespostaClienteSucesso(response.data)
       })
-    }
-    
+      .catch(error => {   
+        trataRespostaClienteErro(error)
+      })
+    }    
   }
   function handleClickLink(e: any){      
     history.push('/'+e.target.name);
-  }  
-  return (
+  } 
+  
+  return (    
     <div id='page-filtroClientes'>
     <SideBar/>
     <Container>
@@ -70,17 +98,46 @@ function FiltroClientes(){
                 <th>Nome</th>
                 </tr>
             </thead>
-            <tbody>
-            {clientes.map(cliente => (
-            <ListaClientes 
-              key={cliente.codCliente} 
-              cliente={cliente}
-            />
-            ))}
+            <tbody>              
+              {clientes.map(cliente => (
+                <ListaClientes 
+                  key={cliente.codCliente} 
+                  cliente={cliente}
+                />
+              ))}
             </tbody>
         </Table>
       </Container>
     </Container>
+    <Modal show={mostrarModalCarregando} onHide={handleCloseCarregando}>
+      <Modal.Body className='justify-content-start text-center align-center'>
+        <Spinner animation="grow" />
+        Carregando...        
+      </Modal.Body>
+    </Modal>
+    <Modal show={mostrarModalErro} onHide={handleCloseErro}>
+      <Modal.Header closeButton>
+        <Modal.Title>Erro ao Carregar Dados</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>Erro: {msgErro}</Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleCloseErro}>
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
+    <Modal show={mostrarModalVazio} onHide={handleCloseVazio}>
+      <Modal.Body className='justify-content-start text-center align-center'>
+        Nenhum Cliente Encontrado
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleCloseVazio}>
+          Fechar
+        </Button>
+      </Modal.Footer>
+    </Modal>
+    
+
     </div>
   );
 }

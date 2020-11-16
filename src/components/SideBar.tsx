@@ -25,6 +25,7 @@ function SideBar(){
       <Nav className="mr-auto" onSelect={handleClickLink}>
         <Nav.Link eventKey="dashboard">Dashboard</Nav.Link>
         <Nav.Link eventKey="filtroclientes">Clientes</Nav.Link>
+        <Nav.Link eventKey="filtroclientes">Produtos</Nav.Link>
       </Nav>
     </Navbar.Collapse>
     </Navbar>
