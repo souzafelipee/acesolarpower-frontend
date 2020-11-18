@@ -4,17 +4,18 @@ import MaskedInput from "react-maskedinput";
 import {Container,Form,Row,Col,Button,Card,Table,InputGroup,Spinner,Alert,Modal} from 'react-bootstrap';
 import api from '../services/api';
 import { useParams, useHistory } from 'react-router-dom';
-
+import { VscSave } from 'react-icons/vsc';
+import { BsCheck } from 'react-icons/bs';
 interface ClienteParams{
   codCliente: string;
 }
-interface Cliente{
+/*interface Cliente{
   celular: string;
   codCliente: string;
   email: string;
   nome: string;
   cnpjCpf: string;
-}
+}*/
 interface UnidadeConsumidora{
   numeroUC: string;
   endereco: string;
@@ -30,7 +31,7 @@ interface UnidadeConsumidora{
 function Clientes(){
   const params = useParams<ClienteParams>();
   const history = useHistory();
-  const [cliente, setCliente] = useState<Cliente>();
+  //const [cliente, setCliente] = useState<Cliente>();
   const [unidadesConsumidoras, setUnidadesConsumidoras] = useState<UnidadeConsumidora[]>([]);
   const [codCliente, setCodCliente] = useState('');
   const [celular, setCelular] = useState('');
@@ -62,7 +63,7 @@ function Clientes(){
     await api.get(`cliente/${params.codCliente}`).then(response => {
       setCarregando(false)
       const clienteAux = response.data;
-      setCliente(response.data);
+      //setCliente(response.data);
       setCodCliente(clienteAux.codCliente);
       setCelular(clienteAux.celular);
       setEmail(clienteAux.email);
@@ -150,7 +151,6 @@ function Clientes(){
   async function handleSubmit(e: FormEvent){
     e.preventDefault();
     const cliente = {celular,email,nome,cnpjCpf,unidadesConsumidoras}
-    console.log(cliente)
     setMostrarModalCarregando(true)
     if (!(params.codCliente === undefined)){
       await api.post(`cliente/${params.codCliente}`, cliente).then(response => {
@@ -184,7 +184,7 @@ function Clientes(){
             <Container className="mt-3">
               <Form.Group >
                 <Row className="justify-content-start text-center align-center border">
-                  <Button variant="success" type='submit'>Salvar</Button>
+                  <Button variant="success" type='submit'><VscSave/> Salvar</Button>
                 </Row>
               </Form.Group>
             </Container>
@@ -322,7 +322,7 @@ function Clientes(){
                   </Col>
                 </Form.Group>
                 <Form.Group className="justify-content-start text-center align-center" as={Row}>
-                  <Button variant="success" type='button' onClick={handleClickAdicionar}>Gravar</Button>
+                  <Button variant="success" type='button' onClick={handleClickAdicionar}><BsCheck/>Gravar</Button>
                 </Form.Group>
               </Container>
             </Container>
@@ -335,22 +335,22 @@ function Clientes(){
             {msgErro}
           </Alert>
         )}
-    <Modal show={mostrarModalMsg} onHide={handleCloseModalMsg}>
-      <Modal.Body className='justify-content-start text-center align-center'>
-        {msgAoCadastrar}
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleCloseModalMsg}>
-          Fechar
-        </Button>
-      </Modal.Footer>
-    </Modal>  
-    <Modal show={mostrarModalCarregando} onHide={handleCloseCarregando}>
-      <Modal.Body className='justify-content-start text-center align-center'>
-        <Spinner animation="grow" />
-        Carregando...        
-      </Modal.Body>
-    </Modal>    
+      <Modal show={mostrarModalMsg} onHide={handleCloseModalMsg}>
+        <Modal.Body className='justify-content-start text-center align-center'>
+          {msgAoCadastrar}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModalMsg}>
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>  
+      <Modal show={mostrarModalCarregando} onHide={handleCloseCarregando}>
+        <Modal.Body className='justify-content-start text-center align-center'>
+          <Spinner animation="grow" />
+          Carregando...        
+        </Modal.Body>
+      </Modal>    
     </div>
   );
 }

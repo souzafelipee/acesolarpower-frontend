@@ -4,7 +4,7 @@ import ListaClientes from '../components/ListaClientes'
 import {Row,Col,Button,InputGroup,Form,Container,Table,Modal,Spinner} from 'react-bootstrap'
 import { useHistory } from 'react-router-dom';
 import api from '../services/api'
-import { findAllByTestId } from '@testing-library/react';
+import { BsFillPersonPlusFill, BsSearch } from 'react-icons/bs';
 
 interface Cliente{
   codCliente: number;
@@ -75,7 +75,7 @@ function FiltroClientes(){
         type='button' 
         variant="primary" 
         name='clientes' 
-        onClick={handleClickLink}>+Novo
+        onClick={handleClickLink}><BsFillPersonPlusFill/> Novo
         </Button>
     </Col>
     <Col bsPrefix="col-xs-11 col-sm-10 ">
@@ -84,7 +84,7 @@ function FiltroClientes(){
         name="nome" value={nome} onChange={event => setNome(event.target.value)} 
         type='text' placeholder="Pesquisar" />
         <InputGroup.Append>
-        <Button type='button' onClick={handleSearchClick} variant="outline-secondary">P</Button>
+        <Button type='button' onClick={handleSearchClick} variant="outline-secondary"><BsSearch/></Button>
         </InputGroup.Append>
     </InputGroup>                    
     </Col>
