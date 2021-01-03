@@ -13,7 +13,23 @@ function DashBoard(){
           <Card style={{ width: '8rem' }} >
             <Card.Img variant="top" src={imgClientes} />
             <Card.Body>
-              <Card.Title>Clientes</Card.Title>
+              <Card.Title >Clientes</Card.Title>
+            </Card.Body>
+          </Card>
+        </Link>
+        <Link to='/filtroprodutos'>
+          <Card style={{ width: '8rem' }} >
+            <Card.Img variant="top" src={imgClientes} />
+            <Card.Body>
+              <Card.Title >Clientes</Card.Title>
+            </Card.Body>
+          </Card>
+        </Link>
+        <Link to='/filtrokits'>
+          <Card style={{ width: '8rem' }} >
+            <Card.Img variant="top" src={imgClientes} />
+            <Card.Body>
+              <Card.Title >Clientes</Card.Title>
             </Card.Body>
           </Card>
         </Link>

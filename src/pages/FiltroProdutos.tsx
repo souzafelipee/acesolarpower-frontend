@@ -48,10 +48,10 @@ function FiltroProdutos(){
   async function handleSearchClick(e: any) {
     setMostrarModalCarregando(true);
     if (nome === ''){      
-      await api.get('produto').then(response =>{        
+      await api.get('produto').then((response:any) =>{        
         trataRespostaProdutoSucesso(response.data)
       })
-      .catch(error => {   
+      .catch((error:any) => {   
         trataRespostaProdutoErro(error)
       })
     }
@@ -59,7 +59,10 @@ function FiltroProdutos(){
   return(
     <div id='page-filtroProdutos'>
       <SideBar/>
-      <Container>
+      <Container className="border">
+        <Row className="justify-content-center text-center align-center mt-3">
+          <b>Filtro de Produtos</b>
+        </Row>
         <Row className="justify-content-center text-center align-center mt-3">
           <Col bsPrefix="col-xs-1 col-sm-2">      
               <Button 
@@ -81,25 +84,25 @@ function FiltroProdutos(){
           </InputGroup>                    
           </Col>
         </Row>
-      </Container>
-      <Container className="mt-4">
-        <Table striped bordered hover size="sm">
-            <thead>
-                <tr>
-                <th>Cod</th>
-                <th>Nome</th>
-                <th>Marca</th>
-                </tr>
-            </thead>
-            <tbody>
-              {produtos.map(produto => (
-                <ListaProdutos 
-                  key={produto.codProduto} 
-                  produto={produto}
-                />
-              ))}
-            </tbody>
-        </Table>
+        <Container className="mt-4">
+          <Table striped bordered hover size="sm">
+              <thead>
+                  <tr>
+                  <th>Cod</th>
+                  <th>Nome</th>
+                  <th>Marca</th>
+                  </tr>
+              </thead>
+              <tbody>
+                {produtos.map(produto => (
+                  <ListaProdutos 
+                    key={produto.codProduto} 
+                    produto={produto}
+                  />
+                ))}
+              </tbody>
+          </Table>
+        </Container>
       </Container>
       <Modal show={mostrarModalCarregando} onHide={handleCloseCarregando}>
         <Modal.Body className='justify-content-start text-center align-center'>

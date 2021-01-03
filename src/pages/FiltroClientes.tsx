@@ -45,18 +45,18 @@ function FiltroClientes(){
   async function handleSearchClick(e: any) {
     setMostrarModalCarregando(true);
     if (nome === ''){      
-      await api.get('cliente').then(response =>{        
+      await api.get('cliente').then((response: any) =>{        
         trataRespostaClienteSucesso(response.data)
       })
-      .catch(error => {   
+      .catch((error:any) => {   
         trataRespostaClienteErro(error)
       })
     }
     else{
-      await api.get('cliente/nome/'+nome).then(response =>{
+      await api.get('cliente/nome/'+nome).then((response:any) =>{
         trataRespostaClienteSucesso(response.data)
       })
-      .catch(error => {   
+      .catch((error:any) => {   
         trataRespostaClienteErro(error)
       })
     }    
@@ -67,8 +67,11 @@ function FiltroClientes(){
   
   return (    
     <div id='page-filtroClientes'>
-    <SideBar/>
-    <Container>
+    <SideBar/>    
+    <Container className="border">
+    <Row className="justify-content-center text-center align-center mt-3">
+      <b>Filtro de Clientes</b>
+    </Row>
     <Row className="justify-content-center text-center align-center mt-3">
     <Col bsPrefix="col-xs-1 col-sm-2">      
         <Button 

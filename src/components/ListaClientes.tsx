@@ -11,16 +11,16 @@ interface Cliente{
 interface ListaClientesProps{
   cliente: Cliente;
 }
-const ListaClientes: React.FC<ListaClientesProps> = (props) =>{
+const ListaClientes: React.FC<ListaClientesProps> = ({cliente}) =>{
   const history = useHistory();
   function handleClick(){
-    history.push('/clientes/'+props.cliente.codCliente)
+    history.push('/clientes/'+cliente.codCliente)
   }
   return (
     <tr onClick={handleClick}>
-      <td>{props.cliente.codCliente}</td>
-      <td>{props.cliente.cnpjCpf}</td>
-      <td>{props.cliente.nome}</td>
+      <td>{cliente.codCliente}</td>
+      <td>{cliente.cnpjCpf}</td>
+      <td>{cliente.nome}</td>
     </tr>
   );
 }

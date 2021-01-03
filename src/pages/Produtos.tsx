@@ -4,6 +4,7 @@ import {Container,Form,Row,Col,Button,Card,Table,InputGroup,Spinner,Alert,Modal}
 import { VscSave } from 'react-icons/vsc';
 import { useParams, useHistory } from 'react-router-dom';
 import api from '../services/api';
+import InputString from '../components/InputString';
 
 interface ProdutoParams{
   codProduto: string;
@@ -36,7 +37,7 @@ function Produtos(){
 
   async function getProduto() {
     setCarregando(true);
-    await api.get(`produto/${params.codProduto}`).then(response => {
+    await api.get(`produto/${params.codProduto}`).then((response:any) => {
       setCarregando(false)
       const produtoAux = response.data;
       //setCliente(response.data);
@@ -51,7 +52,7 @@ function Produtos(){
       setCustoMedioMensal(produtoAux.custoMedioMensal)
       setCustoUltimaCompra(produtoAux.custoUltimaCompra)
     })
-    .catch(error => {   
+    .catch((error:any) => {   
       setCarregando(false)
       setMsgErro(String(error))
       setErro(true)
@@ -75,24 +76,23 @@ function Produtos(){
     e.preventDefault();
 
     const produto = {nome,marca,tipoProduto,potencia,tipoModulo,tipoInversor,
-                     tipoEstrutura,custoMedioMensal,custoUltimaCompra}
-                  
+                     tipoEstrutura,custoMedioMensal,custoUltimaCompra}                  
     setMostrarModalCarregando(true)
     console.log('codproduto')
     console.log(params.codProduto)
     if (!(params.codProduto === undefined)){
-      await api.post(`produto/${params.codProduto}`, produto).then(response => {
+      await api.post(`produto/${params.codProduto}`, produto).then((response:any) => {
         trataRespostaProdutoSucesso();
       })
-      .catch(error => {   
+      .catch((error:any) => {   
         trataRespostaProdutoErro(error);
       })     
     }
     else{
-      await api.post('produto', produto).then(response => {
+      await api.post('produto', produto).then((response:any) => {
         trataRespostaProdutoSucesso();
       })
-      .catch(error => {   
+      .catch((error:any) => {   
         trataRespostaProdutoErro(error);
       })     
     }        
@@ -101,13 +101,13 @@ function Produtos(){
   return (
     <div id='page-Produtos'>
       <SideBar/>
-      {carregando && (
+      {/* {carregando && (
       <Container className="justify-content-start text-center align-center">
         <Spinner animation="grow" />
         Carregando...
       </Container>
-      )} 
-      {(!carregando && !erro) && (
+      )}  */}
+      {/*(!carregando && !erro) && (*/
         <Container>
         <Form onSubmit={handleSubmit}>
           <Container className="mt-3">
@@ -119,23 +119,23 @@ function Produtos(){
           </Container>
           <Container className="mt-1 border">
             <Form.Group as={Row} className="my-2" size="sm">                            
-              <Form.Label column xs={1}>Cod:</Form.Label>
-              <Col xs={2} className="justify-content-start text-left align-left">                
-                <Form.Control readOnly={true} type='text' name="codProduto" placeholder="código"
-                              value={codProduto} onChange={e => setCodProduto(e.target.value)} />
-              </Col>
-              <Form.Label column xs={1}>Nome:</Form.Label>
-              <Col xs={8}className="justify-content-start text-left align-left">
-                <Form.Control className="py-1" type='text' name="nome" placeholder="Nome" 
-                              value={nome} onChange={e => setNome(e.target.value)}/>
-              </Col>
-            </Form.Group>
+              <InputString 
+                stateName='codProduto' state={codProduto} placeHolder='Código'
+                functionState={setCodProduto} label='Cód:' tamanhoLabel={1}
+                tamanhoInput={2} readOnly={true} 
+              />              
+              <InputString 
+                tamanhoLabel={1} label='Nome: '   
+                tamanhoInput={8} stateName='nome' placeHolder='Nome'
+                state={nome} functionState={setNome}                 
+              />
+            </Form.Group>            
             <Form.Group as={Row} className="my-2">
-              <Form.Label column xs={1}>Marca: </Form.Label>
-              <Col xs={2} className="justify-content-start text-left align-left">                
-                <Form.Control type='text' name="marca" placeholder="Marca" 
-                              value={marca} onChange={e => setMarca(e.target.value)}/>
-              </Col>
+              <InputString 
+                tamanhoLabel={1} label='Marca: '   
+                tamanhoInput={2} stateName='marca' placeHolder='Marca'
+                state={marca} functionState={setMarca}                 
+              />
               <Form.Label column xs={2}>Tipo Produto: </Form.Label>
               <Col xs={2} className="justify-content-start text-left align-left">                
                 <Form.Control as="select" name="tipoProduto" placeholder="Classe"
@@ -227,19 +227,19 @@ function Produtos(){
           </Container>
         </Form>
       </Container>
-      )}
+      /*)*/}
       {erro && (
         <Alert variant="danger">
           Erro!: 
           {msgErro}
         </Alert>
       )}
-      <Modal show={mostrarModalCarregando} onHide={handleCloseCarregando}>
+      {/* <Modal show={mostrarModalCarregando} onHide={handleCloseCarregando}>
         <Modal.Body className='justify-content-start text-center align-center'>
           <Spinner animation="grow" />
           Carregando...        
         </Modal.Body>
-      </Modal>    
+      </Modal>     */}
       <Modal show={mostrarModalMsg} onHide={handleCloseModalMsg}>
         <Modal.Body className='justify-content-start text-center align-center'>
           {msgAoCadastrar}

@@ -60,7 +60,7 @@ function Clientes(){
   
   async function getCliente() {
     setCarregando(true);
-    await api.get(`cliente/${params.codCliente}`).then(response => {
+    await api.get(`cliente/${params.codCliente}`).then((response: any) => {
       setCarregando(false)
       const clienteAux = response.data;
       //setCliente(response.data);
@@ -71,7 +71,7 @@ function Clientes(){
       setCnpjCpf(clienteAux.cnpjCpf);
       setUnidadesConsumidoras(clienteAux.unidadesConsumidoras)
     })
-    .catch(error => {   
+    .catch((error:any) => {   
       setCarregando(false)
       setMsgErro(String(error))
       setErro(true)
@@ -153,18 +153,18 @@ function Clientes(){
     const cliente = {celular,email,nome,cnpjCpf,unidadesConsumidoras}
     setMostrarModalCarregando(true)
     if (!(params.codCliente === undefined)){
-      await api.post(`cliente/${params.codCliente}`, cliente).then(response => {
+      await api.post(`cliente/${params.codCliente}`, cliente).then((response: any) => {
         trataRespostaClienteSucesso();
       })
-      .catch(error => {   
+      .catch((error: any) => {   
         trataRespostaClienteErro(error);
       })     
     }
     else{
-      await api.post('cliente', cliente).then(response => {
+      await api.post('cliente', cliente).then((response:any) => {
         trataRespostaClienteSucesso();
       })
-      .catch(error => {   
+      .catch((error:any) => {   
         trataRespostaClienteErro(error);
       })     
     }        
