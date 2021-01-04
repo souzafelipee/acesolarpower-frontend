@@ -8,6 +8,7 @@ import DashBoard from './pages/DashBoard';
 import Produtos from './pages/Produtos';
 import Login from './pages/Login';
 import Kits from './pages/Kits';
+import Orcamentos from './pages/Orcamentos';
 
 function Routes(){    
     return (
@@ -24,6 +25,7 @@ function Routes(){
                 <Route exact path="/kits" component={Kits}/>
                 <Route path="/kits/:codKit" component={Kits}/>
                 <Route path="/produtos/:codProduto" component={Produtos}/>                
+                <Route exact path="/orcamentos" component={Orcamentos}/>
             </Switch>
         </BrowserRouter>        
     );    

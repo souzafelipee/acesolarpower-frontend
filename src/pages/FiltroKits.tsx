@@ -5,7 +5,7 @@ import {Container,Row,Col,Button, InputGroup, Form, Table} from 'react-bootstrap
 import { BsFillPersonPlusFill, BsSearch } from 'react-icons/bs';
 import SideBar from '../components/SideBar';
 import ListaKits from '../components/ListaKits';
-import ModalRespostaVazia from '../components/ModalRepostaVazia';
+import ShowMessage from '../components/ShowMessage';
 
 interface Kit{
   codKit: number;
@@ -28,9 +28,12 @@ interface Kit{
 function FiltroKits(){
   const history = useHistory();     
   const [nome, setNome] = useState('');  
-  const [kits, setKits] = useState<Kit[]>([]);
+  const [kits, setKits] = useState<Kit[]>([]);  
   const [mostrarModalVazio, setMostrarModalVazio] = useState(false);
+  const [mostrarModalErro, setMostrarModalErro] = useState(false);
+  const [msgErro, setMsgErro] = useState('');  
   const handleCloseVazio = () => setMostrarModalVazio(false);
+  const handleCloseErro = () => setMostrarModalErro(false);
 
   function trataRespostaKitSucesso(dados:[]){
     setKits(dados) 
@@ -39,12 +42,24 @@ function FiltroKits(){
     }
   }
   async function handleSearchClick(e: any) {
-    await api.get('kit').then((response:any) =>{        
-      trataRespostaKitSucesso(response.data)
-    })
-    .catch((error:any) => {   
-      console.log('teste')
-    })
+    if (nome === ''){      
+      await api.get('kit').then((response:any) =>{        
+        trataRespostaKitSucesso(response.data)
+      })
+      .catch((error:any) => {   
+        setMsgErro(String(error))
+        setMostrarModalErro(true)
+      })
+    }
+    else{
+      await api.get('kit/nome/'+nome).then((response:any) =>{
+        trataRespostaKitSucesso(response.data)
+      })
+      .catch((error:any) => {   
+        setMsgErro(String(error))
+        setMostrarModalErro(true)
+      })
+    }
   }
   function handleClickLink(e: any){
     history.push('/'+e.target.name);
@@ -95,10 +110,15 @@ function FiltroKits(){
           </Table>
         </Container>
       </Container>
-      <ModalRespostaVazia 
+      <ShowMessage 
         mostrarModal={mostrarModalVazio} 
         handleClose={handleCloseVazio} 
         mensagem={'Nenhum Kit Encontrado'}
+      />
+      <ShowMessage 
+        mostrarModal={mostrarModalErro} 
+        handleClose={handleCloseErro} 
+        mensagem={msgErro}
       />
     </div>
   );

@@ -31,7 +31,6 @@ function FiltroProdutos(){
   const handleCloseErro = () => setMostrarModalErro(false);
 
   function trataRespostaProdutoSucesso(dados:[]){
-    setMostrarModalCarregando(false)        
     setProdutos(dados) 
     if (dados.length === 0){
       setMostrarModalVazio(true)
@@ -39,14 +38,12 @@ function FiltroProdutos(){
   }
   function trataRespostaProdutoErro(dados:any){
     setMsgErro(String(dados))
-    setMostrarModalCarregando(false)
     setMostrarModalErro(true)
   }
   function handleClickLink(e: any){      
     history.push('/'+e.target.name);
   } 
   async function handleSearchClick(e: any) {
-    setMostrarModalCarregando(true);
     if (nome === ''){      
       await api.get('produto').then((response:any) =>{        
         trataRespostaProdutoSucesso(response.data)
@@ -54,7 +51,7 @@ function FiltroProdutos(){
       .catch((error:any) => {   
         trataRespostaProdutoErro(error)
       })
-    }
+    }    
   }
   return(
     <div id='page-filtroProdutos'>

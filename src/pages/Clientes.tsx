@@ -179,7 +179,10 @@ function Clientes(){
       </Container>
       )} 
       {(!carregando && !erro) && (
-        <Container>
+        <Container className="border">
+          <Row className="justify-content-center text-center align-center mt-3">
+            <b>Clientes</b>
+          </Row>
           <Form onSubmit={handleSubmit}>
             <Container className="mt-3">
               <Form.Group >

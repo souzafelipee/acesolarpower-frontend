@@ -96,6 +96,10 @@ function Kits(){
     <div id='page-Kits'>
     <SideBar/>
     <Form onSubmit={handleSubmit}>
+      <Container className="border">
+      <Row className="justify-content-center text-center align-center mt-3">
+        <b>Kits</b>
+      </Row>
       <Container className="mt-3">
         <Form.Group >
           <Row className="justify-content-start text-center align-center border">
@@ -222,13 +226,16 @@ function Kits(){
         </fieldset>
         <Form.Group className="mx-2 mt-0 mb-1">
           <Form.Label column xs={2}>Descrição completa:</Form.Label>
-          <Form.Control as="textarea" rows={3} />
+          <Form.Control as="textarea" rows={3} placeholder="Descrição Completa"
+                        value={descricaoCompleta} onChange={e => setDescricaoCompleta(e.target.value)}/>
         </Form.Group>      
       </Tab>      
       <Tab className="border" eventKey="produtosTab" title="Produtos">        
+        Aguarde... em desenvolvimento
       </Tab>
     </Tabs>          
-    </Container>           
+    </Container>    
+    </Container>       
     </Form>
     </div>
   );

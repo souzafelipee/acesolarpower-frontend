@@ -1,13 +1,13 @@
 import React from 'react';
 import {Modal, Button} from 'react-bootstrap';
 
-interface ModalRespostaVaziaProps{  
+interface ShowMessageProps{  
   mostrarModal: boolean;
   handleClose: any;
   mensagem: string;
 }
 
-const ModalRespostaVazia: React.FC<ModalRespostaVaziaProps> = (props) =>{
+const ShowMessage: React.FC<ShowMessageProps> = (props) =>{
   return (    
     <>
     <Modal show={props.mostrarModal} onHide={props.handleClose}>
@@ -23,4 +23,4 @@ const ModalRespostaVazia: React.FC<ModalRespostaVaziaProps> = (props) =>{
     </>
   );
 }
-export default ModalRespostaVazia;
+export default ShowMessage;
